@@ -1,0 +1,12 @@
+<div class="bg-white border p-3 mb-2">
+  <div class="mb-2">
+    <h4 class="font-bold text-sm"><%= comment.name %></h4>
+    <p class="text-xs">
+      <%= comment.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+    </p>
+  </div>
+  
+  <div>
+    <p class="text-sm"><%= comment.body %></p>
+  </div>
+</div>

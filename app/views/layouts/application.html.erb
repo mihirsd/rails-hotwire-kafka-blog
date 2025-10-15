@@ -23,7 +23,25 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <header class="mx-8 my-4">
+      <h1 class="text-2xl font-bold">
+        <%= link_to "Hotwire Blog", root_path %>
+      </h1>
+    </header>
+
+    <main class="mx-8 mt-8 mb-4">
+      <% if notice %>
+        <div class="bg-green-100 text-green-800 p-3 mb-4 border">
+          <%= notice %>
+        </div>
+      <% end %>
+      
+      <% if alert %>
+        <div class="bg-red-100 text-red-800 p-3 mb-4 border">
+          <%= alert %>
+        </div>
+      <% end %>
+      
       <%= yield %>
     </main>
   </body>
