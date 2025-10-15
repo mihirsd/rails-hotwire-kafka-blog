@@ -2,7 +2,8 @@
 
 class KarafkaApp < Karafka::App
   setup do |config|
-    config.kafka = { 'bootstrap.servers': '127.0.0.1:9092' }
+    kafka_brokers = ENV.fetch('KAFKA_BROKERS', '127.0.0.1:9092')
+    config.kafka = { 'bootstrap.servers': kafka_brokers }
     config.client_id = "blog-#{Process.pid}-#{Socket.gethostname}"
 
     # IMPORTANT: Customize this group_id with your application name.
