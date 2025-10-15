@@ -1,24 +1,28 @@
-# README
+# Rails Hotwire Kafka Blog
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Rails 8 blog application with Hotwire and Kafka integration.
 
-Things you may want to cover:
+## Development with Docker
 
-* Ruby version
+```bash
+# Start services
+docker-compose up
 
-* System dependencies
+# Stop services
+docker-compose down
 
-* Configuration
+# Rails console
+docker-compose exec web bin/rails console
 
-* Database creation
+# View logs
+docker-compose logs -f web
+```
 
-* Database initialization
+## Local Development
 
-* How to run the test suite
+```bash
+bin/setup
+bin/dev
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+App runs on `http://localhost:3000`
