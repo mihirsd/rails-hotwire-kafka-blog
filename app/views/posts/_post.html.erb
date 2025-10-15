@@ -1,53 +1,35 @@
-<article class="bg-white border mb-4">
-  <div class="p-4">
-    <h2 class="text-xl font-bold mb-3">
-      <%= post.title %>
-    </h2>
-    
-    <div class="text-sm mb-4">
-      <%= post.created_at.strftime("%B %d, %Y") %>
-    </div>
-    
-    <div>
-      <p><%= post.body %></p>
-    </div>
-  </div>
-
-  <div class="border-t bg-gray-50 p-4">
-    <div class="mb-4">
-      <h3 class="text-lg font-bold">
-        Comments (<%= post.comments.count %>)
-      </h3>
-    </div>
-    
-    <% if post.comments.any? %>
-      <div class="mb-4">
-        <%= render post.comments %>
+<%= turbo_frame_tag dom_id(post) do %>
+  <article class="bg-white border mb-4">
+    <div class="p-4">
+      <h2 class="text-xl font-bold mb-2"><%= post.title %></h2>
+      <div class="text-sm mb-4">
+        <%= post.created_at.strftime("%B %d, %Y") %>
       </div>
-    <% else %>
-      <p class="text-sm mb-4">No comments yet.</p>
-    <% end %>
-    
-    <div class="bg-white border p-3">
-      <%= form_with model: [post, Comment.new], local: true do |f| %>
-        <div class="mb-3">
-          <%= f.text_field :name, 
-              placeholder: "Your name", 
-              class: "w-full px-3 py-2 border text-sm" %>
+      <div>
+        <%= post.body %>
+      </div>
+    </div>
+
+    <div class="border-t bg-gray-100 p-4">
+      <div class="mb-4">
+        <h3 class="text-lg font-bold">
+          Comments (<%= post.comments.count %>)
+        </h3>
+      </div>
+
+      <%= turbo_frame_tag "#{dom_id(post)}_comments" do %>
+        <div id="<%= dom_id(post) %>_comments_list">
+          <%= render post.comments %>
         </div>
-        
-        <div class="mb-3">
-          <%= f.text_area :body, 
-              rows: 3, 
-              placeholder: "Share your thoughts...", 
-              class: "w-full px-3 py-2 border text-sm" %>
-        </div>
-        
-        <div>
-          <%= f.submit "Post Comment", 
-              class: "bg-blue-600 text-white py-2 px-4 text-sm" %>
+        <div class="bg-white border p-3" id="<%= dom_id(post) %>_comment_form">
+          <%= form_with model: [post, Comment.new], local: false do |f| %>
+            <%= f.text_field :name, placeholder: "Your name", class: "w-full px-3 py-2 border text-sm mb-3" %>
+            <%= f.text_area :body, rows: 2, placeholder: "Add a comment...", class: "w-full px-3 py-2 border text-sm mb-3" %>
+            <%= f.submit "Post Comment", class: "bg-blue-600 text-white py-2 px-4 text-sm" %>
+          <% end %>
         </div>
       <% end %>
     </div>
-  </div>
-</article>
+
+  </article>
+<% end %>

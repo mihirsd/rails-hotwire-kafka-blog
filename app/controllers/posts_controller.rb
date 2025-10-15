@@ -7,11 +7,20 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
-    if @post.save
-      redirect_to posts_path, notice: "Post created successfully!"
-    else
-      @posts = Post.includes(:comments).order(created_at: :desc)
-      render :index, status: :unprocessable_entity
+    respond_to do |format|
+      if @post.save
+        format.turbo_stream
+        format.html { redirect_to posts_path, notice: "Post created successfully!" }
+      else
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.replace(
+            "post_form",
+            partial: "posts/form",
+            locals: { post: @post }
+          )
+        }
+        format.html { render :index, status: :unprocessable_entity }
+      end
     end
   end
 

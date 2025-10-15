@@ -3,19 +3,20 @@
     <h1 class="text-2xl font-bold mb-2">Blog Posts</h1>
   </div>
 
-  <div class="bg-white border p-4 mb-6">
-    <h2 class="text-xl font-bold mb-4">Create New Post</h2>
-    <%= render "form", post: @post %>
+  <div class="mb-4">
+    <%= turbo_stream_from "posts" %>
+    <div id="posts">
+      <%= render @posts %>
+      <% if @posts.empty? %>
+        <div id="no_posts_message">No posts yet. Create your first post above!</div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="mb-4">
-    <% if @posts.any? %>
-      <%= render @posts %>
-    <% else %>
-      <div class="text-center py-8">
-        <h3 class="text-lg font-bold mb-2">No posts yet</h3>
-        <p>Create your first post!</p>
-      </div>
+  <div class="bg-white border p-4 mb-6">
+    <h2 class="text-xl font-bold mb-4">Create New Post</h2>
+    <%= turbo_frame_tag "post_form" do %>
+      <%= render "form", post: @post %>
     <% end %>
   </div>
 </div>
