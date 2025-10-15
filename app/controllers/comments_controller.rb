@@ -10,6 +10,7 @@ class CommentsController < ApplicationController
         format.turbo_stream
         format.html { redirect_to posts_path }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("#{dom_id(@post)}_comment_form", partial: "comments/form", locals: { post: @post, comment: @comment }) }
         format.html { redirect_to posts_path, alert: "Failed to create comment" }
       end
     end
